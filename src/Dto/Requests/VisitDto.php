@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Dto\Requests;
+
+use Symfony\Component\Validator\Constraints as Assert;
+class VisitDto 
+{
+    #[Assert\NotBlank(message: 'PropertyId is required')]
+    private int $propertyId;
+
+    #[Assert\NotBlank(message:'ClientId is required')]
+    private int $clientId;
+
+    #[Assert\NotBlank(message:'Date is required')]
+    private \DateTime $visitDate;
+
+    #[Assert\NotBlank(message:'Status is required')]
+    private string $status;
+
+
+    public function getPropertyId(): int
+    {
+        return $this->propertyId;
+    }
+    public function getClientId(): int
+    {
+        return $this->clientId;
+    }
+    public function getVisitDate(): \DateTime
+    {
+        return $this->visitDate;
+    }
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+    public function setPropertyId(int $propertyId): void
+    {
+        $this->propertyId = $propertyId;
+    }
+    public function setClientId(int $clientId): void
+    {
+        $this->clientId = $clientId;
+            
+    }
+    public function setVisitDate(string $visitDate): void
+    {
+        $this->visitDate = new \DateTime($visitDate);
+    }
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+
+        
+    }
+}
