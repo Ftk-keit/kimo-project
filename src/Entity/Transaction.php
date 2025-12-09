@@ -28,16 +28,19 @@ class Transaction
     private ?Property $property = null;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
-    private ?string $price = null;
+    private string $price;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
-    private ?string $commission = null;
+    private string $commission;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date = null;
+    private \DateTime $date;
 
     #[ORM\Column(enumType: StatusTransaction::class)]
-    private ?StatusTransaction $status = null;
+    private StatusTransaction $status;
+
+    #[ORM\Column]
+    private float $amount;
 
    
 
@@ -86,31 +89,31 @@ class Transaction
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): string
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): static
+    public function setPrice(string $price): static
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getCommission(): ?int
+    public function getCommission(): string
     {
         return $this->commission;
     }
 
-    public function setCommission(int $commission): static
+    public function setCommission(string $commission): static
     {
         $this->commission = $commission;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -122,7 +125,7 @@ class Transaction
         return $this;
     }
 
-    public function getStatus(): ?StatusTransaction
+    public function getStatus(): StatusTransaction
     {
         return $this->status;
     }
@@ -130,6 +133,18 @@ class Transaction
     public function setStatus(StatusTransaction $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(float $amount): static
+    {
+        $this->amount = $amount;
 
         return $this;
     }

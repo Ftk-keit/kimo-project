@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Dto\Responses\TransactionAllResponse;
+
 interface TransactionService 
 {
-    public function createTransaction(createTransaction $createTransaction): Transaction;
-    public function getTransactionById(int $id): ?Transaction;
-    public function updateTransaction(int $id, updateTransaction $updateTransaction): ?Transaction;
+    public function createTransaction(TransactionDto $createTransaction): TransactionAllResponse;
+    public function getTransactionById(int $id): ?TransactionAllResponse;
+
+    public function updateTransaction(int $id, TransactionDto $updateTransaction): ?TransactionAllResponse;
     public function deleteTransaction(int $id): bool;
 }

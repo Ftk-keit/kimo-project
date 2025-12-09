@@ -20,47 +20,47 @@ class Property
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Title = null;
+    private string $Title;
 
     #[ORM\Column(enumType: TypeProperty::class)]
-    private ?TypeProperty $type = null;
+    private TypeProperty $type;
 
    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $price = null;
+    private string $price;
 
 
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $views = null;
+    private int $views;
 
     #[ORM\Column(enumType: StatusProperty::class)]
-    private ?StatusProperty $status = null;
+    private StatusProperty $status;
 
     #[ORM\Column(length: 255)]
-    private ?string $Description = null;
+    private string $Description;
 
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $bedroom = null;
+    private int $bedroom;
 
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $bathroom = null;
+    private int $bathroom;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
-    private ?string $surface = null;
+    private string $surface;
 
     #[ORM\Column]
     private array $characteristic = [];
 
     #[ORM\Column(length: 255)]
-    private ?string $media = null;
+    private string $media;
 
     #[ORM\Column(enumType: TypeTransaction::class)]
-    private ?TypeTransaction $typeTransaction = null;
+    private TypeTransaction $typeTransaction;
 
     #[ORM\Column(length: 255)]
-    private ?string $location = null;
+    private string $location;
 
     #[ORM\Column(length: 50)]
-    private ?string $city = null;
+    private string $city;
 
     #[ORM\ManyToOne(inversedBy: 'property')]
     private ?Transaction $transaction = null;
@@ -92,7 +92,7 @@ class Property
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->Title;
     }
@@ -104,7 +104,7 @@ class Property
         return $this;
     }
 
-    public function getType(): ?TypeProperty
+    public function getType(): TypeProperty
     {
         return $this->type;
     }
@@ -116,31 +116,31 @@ class Property
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): string
     {
         return $this->price;
     }
 
-    public function setPrice(?string $price): static
+    public function setPrice(string $price): static
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getViews(): ?int
+    public function getViews(): int
     {
         return $this->views;
     }
 
-    public function setViews(?int $views): static
+    public function setViews(int $views): static
     {
         $this->views = $views;
 
         return $this;
     }
 
-    public function getStatus(): ?StatusProperty
+    public function getStatus(): StatusProperty
     {
         return $this->status;
     }
@@ -152,7 +152,7 @@ class Property
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->Description;
     }
@@ -164,36 +164,36 @@ class Property
         return $this;
     }
 
-    public function getBedroom(): ?int
+    public function getBedroom(): int
     {
         return $this->bedroom;
     }
 
-    public function setBedroom(?int $bedroom): static
+    public function setBedroom(int $bedroom): static
     {
         $this->bedroom = $bedroom;
 
         return $this;
     }
 
-    public function getBathroom(): ?int
+    public function getBathroom(): int
     {
         return $this->bathroom;
     }
 
-    public function setBathroom(?int $bathroom): static
+    public function setBathroom(int $bathroom): static
     {
         $this->bathroom = $bathroom;
 
         return $this;
     }
 
-    public function getSurface(): ?string
+    public function getSurface(): string
     {
         return $this->surface;
     }
 
-    public function setSurface(?string $surface): static
+    public function setSurface(string $surface): static
     {
         $this->surface = $surface;
 
@@ -212,7 +212,7 @@ class Property
         return $this;
     }
 
-    public function getMedia(): ?string
+    public function getMedia(): string
     {
         return $this->media;
     }
@@ -224,7 +224,7 @@ class Property
         return $this;
     }
 
-    public function getTypeTransaction(): ?TypeTransaction
+    public function getTypeTransaction(): TypeTransaction
     {
         return $this->typeTransaction;
     }
@@ -236,7 +236,7 @@ class Property
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): string
     {
         return $this->location;
     }
@@ -248,7 +248,7 @@ class Property
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string
     {
         return $this->city;
     }

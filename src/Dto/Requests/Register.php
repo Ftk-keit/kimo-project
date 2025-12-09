@@ -2,7 +2,7 @@
 namespace App\Dto\Requests;
 
 use Symfony\Component\Validator\Constraints as Assert;
-class register
+class Register
 {
     #[Assert\NotBlank(message: 'Name is required')]
     private string $name;

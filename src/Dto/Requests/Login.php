@@ -3,7 +3,7 @@
 namespace App\Dto\Requests;
 
 use Symfony\Component\Validator\Constraints as Assert;
-class login
+class Login
 {
     #[Assert\NotBlank(message: 'Username is required')]
     private string $username;
