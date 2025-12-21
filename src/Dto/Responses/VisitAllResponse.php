@@ -40,5 +40,20 @@ class VisitAllResponse
     public function getVisitDate(): \DateTime
     {
         return $this->visitDate;
-    } 
+    }
+
+    public function setVisitDate(\DateTime $visitDate): void
+    {
+        $this->visitDate = $visitDate;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
 }

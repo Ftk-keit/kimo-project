@@ -19,5 +19,11 @@ services:
     App\:
         resource: '../src/'
 
+    # Bind interfaces to their implementations
+    App\Services\PropertyService: '@App\Services\impl\PropertyServiceImpl'
+    App\Services\UserService: '@App\Services\impl\UserServiceImpl'
+    App\Services\TransactionService: '@App\Services\impl\TransactionServiceImpl'
+    App\Services\VisitService: '@App\Services\impl\VisitServiceImpl'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

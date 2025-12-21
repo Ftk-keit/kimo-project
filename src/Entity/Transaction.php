@@ -6,6 +6,7 @@ use App\Enums\StatusTransaction;
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Cast\Double;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 class Transaction
@@ -27,8 +28,8 @@ class Transaction
     #[ORM\JoinColumn(nullable: false)]
     private ?Property $property = null;
 
-    #[ORM\Column(type: Types::STRING, length: 50)]
-    private string $price;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private float $price;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
     private string $commission;
@@ -89,12 +90,12 @@ class Transaction
         return $this;
     }
 
-    public function getPrice(): string
+    public function getPrice(): float
     {
         return $this->price;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(float $price): static
     {
         $this->price = $price;
 

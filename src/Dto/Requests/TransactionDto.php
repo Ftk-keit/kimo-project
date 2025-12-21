@@ -2,75 +2,84 @@
 
 namespace App\Dto\Requests;
 
+
 class TransactionDto
 {
     private ?int $sellerId;
     private ?int $buyerId;
     private ?int $amount;
-
+    private ?float $price;
     private ?int $propertyId;
     private ?string $commission;
-    private ?\DateTime $date = new \DateTime();
+    private ?\DateTime $date;
     private ?string $status;
-    function getSellerId(): ?int
+   public function getSellerId(): ?int
     {
         return $this->sellerId;
     }
-    
-    function setSellerId(?int $sellerId): void
+
+    public function setSellerId(?int $sellerId): void
     {
         $this->sellerId = $sellerId;
     }
 
-    function getBuyerId(): ?int
+    public function getBuyerId(): ?int
     {
         return $this->buyerId;
     }
-    function setBuyerId(?int $buyerId): void
+    public function setBuyerId(?int $buyerId): void
     {
         $this->buyerId = $buyerId;
     }
-    function getAmount(): ?int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
-    function setAmount(?int $amount): void
+    public function setAmount(?int $amount): void
     {
         $this->amount = $amount;
     }
-    function getPropertyId(): ?int
+    public function getPropertyId(): ?int
     {
         return $this->propertyId;
-    
+
     }
-    function setPropertyId(?int $propertyId): void
+    public function setPropertyId(?int $propertyId): void
     {
         $this->propertyId = $propertyId;
     }
-    function getCommission(): ?string
+    public function getCommission(): ?string
     {
         return $this->commission;
     }
-    function setCommission(?string $commission): void
+    public function setCommission(?string $commission): void
     {
         $this->commission = $commission;
     }
-    function getDate(): ?\DateTime
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
-    function setDate(?\DateTime $date): void
+    public function setDate(?\DateTime $date): void
     {
         $this->date = $date;
     }
-    function getStatus(): ?string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
-    function setStatus(?string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
 
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
 
+    public function setPrice(?float $price): void
+    {
+        $this->price = $price;
+    }
 }

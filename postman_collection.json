@@ -1,0 +1,330 @@
+{
+  "info": {
+    "name": "KIMO Project API",
+    "description": "API REST pour gérer les propriétés, utilisateurs, transactions et visites",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Properties",
+      "item": [
+        {
+          "name": "Create Property",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Belle maison à Paris\",\n  \"type\": \"house\",\n  \"views\": 150,\n  \"description\": \"Une belle maison avec jardin\",\n  \"address\": \"123 Rue de la Paix\",\n  \"price\": 500000,\n  \"size\": 200,\n  \"location\": \"Paris\",\n  \"city\": \"Paris\",\n  \"bedrooms\": 4,\n  \"bathrooms\": 2,\n  \"ownerId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/properties",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "properties"]
+            }
+          }
+        },
+        {
+          "name": "Get Property by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/properties/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "properties", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Property",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Belle maison à Paris - UPDATED\",\n  \"type\": \"house\",\n  \"views\": 200,\n  \"description\": \"Une belle maison avec jardin et piscine\",\n  \"address\": \"123 Rue de la Paix\",\n  \"price\": 550000,\n  \"size\": 220,\n  \"location\": \"Paris\",\n  \"city\": \"Paris\",\n  \"bedrooms\": 5,\n  \"bathrooms\": 3,\n  \"ownerId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/properties/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "properties", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Property",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/properties/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "properties", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dupont\",\n  \"firstname\": \"Jean\",\n  \"email\": \"jean.dupont@example.com\",\n  \"phone\": \"0612345678\",\n  \"address\": \"456 Avenue du Monde\",\n  \"password\": \"newpassword123\",\n  \"typeAccount\": \"buyer\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "users", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sellerId\": 1,\n  \"buyerId\": 2,\n  \"propertyId\": 1,\n  \"price\": \"500000\",\n  \"commission\": \"25000\",\n  \"date\": \"2025-12-16T10:00:00+00:00\",\n  \"status\": \"completed\",\n  \"amount\": 10000\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/transactions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "transactions"]
+            }
+          }
+        },
+        {
+          "name": "Get Transaction by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/transactions/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "transactions", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Transaction",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sellerId\": 1,\n  \"buyerId\": 2,\n  \"propertyId\": 1,\n  \"price\": \"520000\",\n  \"commission\": \"26000\",\n  \"date\": \"2025-12-16T15:00:00+00:00\",\n  \"status\": \"completed\",\n  \"amount\": 10500\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/transactions/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "transactions", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Transaction",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/transactions/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "transactions", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Visits",
+      "item": [
+        {
+          "name": "Create Visit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propertyId\": 1,\n  \"clientId\": 2,\n  \"visitDate\": \"2025-12-20\",\n  \"status\": \"scheduled\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/visits",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "visits"]
+            }
+          }
+        },
+        {
+          "name": "Get Visit by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/visits/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "visits", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Visits by Property ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/visits/property/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "visits", "property", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Visit",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propertyId\": 1,\n  \"clientId\": 2,\n  \"visitDate\": \"2025-12-21\",\n  \"status\": \"completed\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/visits/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "visits", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Visit",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/visits/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "visits", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

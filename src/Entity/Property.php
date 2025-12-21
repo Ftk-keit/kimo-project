@@ -50,9 +50,6 @@ class Property
     #[ORM\Column]
     private array $characteristic = [];
 
-    #[ORM\Column(length: 255)]
-    private string $media;
-
     #[ORM\Column(enumType: TypeTransaction::class)]
     private TypeTransaction $typeTransaction;
 
@@ -81,10 +78,17 @@ class Property
     #[ORM\OneToMany(targetEntity: Visit::class, mappedBy: 'property')]
     private Collection $visits;
 
+    /**
+     * @var Collection<int, Media>
+     */
+    #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'property', cascade: ['persist', 'remove'])]
+    private Collection $media;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
         $this->visits = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,18 +216,25 @@ class Property
         return $this;
     }
 
-    public function getMedia(): string
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
     {
         return $this->media;
     }
 
-    public function setMedia(string $media): static
+    public function addMedia(Media $media): static
     {
-        $this->media = $media;
+        if (!$this->media->contains($media)) {
+            $this->media->add($media);
+            $media->setProperty($this);
+        }
 
         return $this;
     }
 
+   
     public function getTypeTransaction(): TypeTransaction
     {
         return $this->typeTransaction;
