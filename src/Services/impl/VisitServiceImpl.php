@@ -6,6 +6,8 @@ use App\Dto\Requests\VisitDto;
 use App\Dto\Responses\VisitAllResponse;
 use App\Entity\Visit;
 use App\Enums\StatusVisit;
+use App\Repository\PropertyRepository;
+use App\Repository\UserRepository;
 use App\Repository\VisitRepository;
 use App\Services\VisitService;
 use App\Utils\Mappers\VisitMapper;
@@ -14,13 +16,19 @@ class VisitServiceImpl implements VisitService
 {
     private VisitRepository $visitRepository;
     private VisitMapper $visitMapper;
+    private PropertyRepository $propertyRepository;
+    private UserRepository $userRepository;
 
     public function __construct(
         VisitRepository $visitRepository,
-        VisitMapper $visitMapper
+        VisitMapper $visitMapper,
+        PropertyRepository $propertyRepository,
+        UserRepository $userRepository
     ) {
         $this->visitRepository = $visitRepository;
         $this->visitMapper = $visitMapper;
+        $this->propertyRepository = $propertyRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function isVisit(int $id): bool
@@ -41,23 +49,38 @@ class VisitServiceImpl implements VisitService
         return $visitResponses;
     }
 
-    public function createVisit(VisitDto $visitDto): VisitAllResponse
+    public function createVisit(VisitDto $visitDto): ?VisitAllResponse
     {
         $visit = $this->visitMapper->toEntity($visitDto);
         
+        $property = $this->propertyRepository->findById($visitDto->getPropertyId());
+        $client = $this->userRepository->findById($visitDto->getClientId());
+        if ($property === null || $client === null) {
+           return null;
+        }
+        $visit->setProperty($property);
+        $visit->setClient($client);
+
         $this->visitRepository->save($visit);
         
         return $this->visitMapper->toDto($visit);
     }
 
-    public function updateVisit(int $id, VisitDto $visitDto): VisitAllResponse
+    public function updateVisit(int $id, VisitDto $visitDto): ?VisitAllResponse
     {
         $visit = $this->visitRepository->findById($id);
         
         if (!$visit) {
-            throw new \Exception("Visit not found with id: $id");
+           return null;
         }
         
+        $property = $this->propertyRepository->findById($visitDto->getPropertyId());
+        $client = $this->userRepository->findById($visitDto->getClientId());
+        if ($property === null || $client === null) {
+           return null;
+        }
+        $visit->setProperty($property);
+        $visit->setClient($client);
         $visit->setDate($visitDto->getDate());
         $visit->setStatus(StatusVisit::from($visitDto->getStatus()));
         
@@ -73,8 +96,8 @@ class VisitServiceImpl implements VisitService
         if (!$visit) {
             return null;
         }
-        
-        return $this->visitMapper->toDto($this->visitRepository->delete($visit));
+        $this->visitRepository->delete($visit);
+        return $this->visitMapper->toDto($visit);
     }
 
     public function deleteVisitByPropertyId(int $id): ?VisitAllResponse

@@ -2,13 +2,16 @@
 
 namespace App\Dto\Responses;
 
+use DateTime;
+
 class VisitAllResponse 
 {
     private int $id;
     private int $propertyId;
     private int $clientId;
-    private \DateTime $visitDate;
+    private DateTime $visitDate;
     private string $status;
+    private DateTime $hourse;
 
     public function getId(): int
     {
@@ -55,5 +58,13 @@ class VisitAllResponse
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+    public function setHourse(?string $hourse): void
+    {
+        $this->hourse = $hourse !== null ? new DateTime($hourse) : null;
+    }
+    public function getHourse(): ?DateTime
+    {
+        return $this->hourse;
     }
 }

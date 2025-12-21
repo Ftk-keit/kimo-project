@@ -14,6 +14,8 @@ class VisitDto
     #[Assert\NotBlank(message:'Date is required')]
     private ?\DateTime $visitDate;
 
+     #[Assert\NotBlank(message:'Date is required')]
+    private ?\DateTime $hourse;
     #[Assert\NotBlank(message:'Status is required')]
     private ?string $status;
 
@@ -34,6 +36,12 @@ class VisitDto
     {
         return $this->status;
     }
+
+    public function getHourse(): ?\DateTime
+    {
+        return $this->hourse;
+    }
+
     public function setPropertyId(?int $propertyId): void
     {
         $this->propertyId = $propertyId;
@@ -55,5 +63,9 @@ class VisitDto
     public function getDate(): ?\DateTime
     {
         return $this->visitDate;
+    }
+    public function setHourse(?string $hourse): void
+    {
+        $this->hourse = $hourse !== null ? new \DateTime($hourse) : null;
     }
 }

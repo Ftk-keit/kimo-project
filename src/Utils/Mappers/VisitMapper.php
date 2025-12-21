@@ -14,7 +14,8 @@ class VisitMapper
         $dto = new VisitAllResponse();
 
         $dto->setId($visit->getId());
-        $dto->setVisitDate($visit->getDate() );
+        $dto->setVisitDate($visit->getDate());
+        $dto->setHourse($visit->getHourse()->format('Y-m-d H:i:s'));
         $dto->setStatus($visit->getStatus()->value);
         $dto->setClientId($visit->getClient()->getId());
         $dto->setPropertyId($visit->getProperty()->getId());
@@ -27,6 +28,7 @@ class VisitMapper
         $visit = new Visit();
         $status = StatusVisit::toEnum($dto->getStatus());
         $visit->setDate($dto->getVisitDate());
+        $visit->setHourse($dto->getHourse());
         $visit->setStatus($status);
 
         return $visit;
