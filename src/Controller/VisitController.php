@@ -16,14 +16,14 @@ final class VisitController extends AbstractController
     {
     }
 
-    #[Route('', name: 'create_visit', methods: ['POST'])]
+    #[Route('', name: 'create_visit', methods: ['POST'])] //ok
     public function create(VisitDto $visitDto): JsonResponse
     {
         $response = $this->visitService->createVisit($visitDto);
         return $this->json($response, Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'get_visit', methods: ['GET'])]
+    #[Route('/{id}', name: 'get_visit', methods: ['GET'])] //ok
     public function get(int $id): JsonResponse
     {
         $visits = $this->visitService->getVisitByVisitId($id);
@@ -34,7 +34,7 @@ final class VisitController extends AbstractController
         
         return $this->json($visits[0]);
     }
-    #[Route('/', name: 'get_all_visits', methods: ['GET'])]
+    #[Route('/', name: 'get_all_visits', methods: ['GET'])] //ok
     public function getAll(): JsonResponse
     {
         $visits = $this->visitService->getAllVisits();
@@ -46,14 +46,14 @@ final class VisitController extends AbstractController
         return $this->json($visits);
     }
 
-    #[Route('/{id}', name: 'update_visit', methods: ['PUT'])]
+    #[Route('/{id}', name: 'update_visit', methods: ['PUT'])] //ok
     public function update(int $id, VisitDto $visitDto): JsonResponse
     {
         $response = $this->visitService->updateVisit($id, $visitDto);
         return $this->json($response);
     }
 
-    #[Route('/{id}', name: 'delete_visit', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete_visit', methods: ['DELETE'])] //ok
     public function delete(int $id): JsonResponse
     {
         $this->visitService->deleteVisit($id);

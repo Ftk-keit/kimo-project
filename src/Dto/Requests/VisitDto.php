@@ -6,15 +6,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VisitDto 
 {
     #[Assert\NotBlank(message: 'PropertyId is required')]
+    #[Assert\NotNull(message:'PropertyId is required')]
     private ?int $propertyId;
 
     #[Assert\NotBlank(message:'ClientId is required')]
+    #[Assert\NotNull(message:'ClientId is required')]
     private ?int $clientId;
 
     #[Assert\NotBlank(message:'Date is required')]
+    #[Assert\NotNull(message:'Date is required')]
     private ?\DateTime $visitDate;
 
      #[Assert\NotBlank(message:'Date is required')]
+    #[Assert\NotNull(message:'Date is required')]
     private ?\DateTime $hourse;
     #[Assert\NotBlank(message:'Status is required')]
     private ?string $status;

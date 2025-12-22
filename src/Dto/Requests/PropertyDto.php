@@ -2,20 +2,58 @@
 
 namespace App\Dto\Requests;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class PropertyDto
 {
-   private ?string $title;
+    #[Assert\NotBlank(message: 'Title is required')]
+    #[Assert\NotNull(message:'Title is required')]
+    private ?string $title;
+
+    #[Assert\NotBlank(message: 'Type is required')]
+    #[Assert\NotNull(message:'Type is required')]
     private ?string $type;
+
+    #[Assert\NotBlank(message: 'Views is required')]
+    #[Assert\NotNull(message:'Views is required')]
     private ?int $views;
+
+    #[Assert\NotBlank(message: 'Description is required')]
+    #[Assert\NotNull(message:'Description is required')]
     private ?string $description;
+
+    #[Assert\NotBlank(message: 'Price is required')]
+    #[Assert\NotNull(message:'Price is required')]
     private ?int $price;
+
+    #[Assert\NotBlank(message: 'Location is required')]
+    #[Assert\NotNull(message:'Location is required')]
     private ?string $location;
+
+    #[Assert\NotBlank(message: 'City is required')]
+    #[Assert\NotNull(message:'City is required')]
     private ?string $city;
+
+    #[Assert\NotBlank(message: 'Bedrooms is required')]
+    #[Assert\NotNull(message:'Bedrooms is required')]
     private ?int $bedrooms;
+
+    #[Assert\NotBlank(message: 'Bathrooms is required')]
+    #[Assert\NotNull(message:'Bathrooms is required')]
     private ?int $bathrooms;
+
+    #[Assert\NotBlank(message: 'OwnerId is required')]
+    #[Assert\NotNull(message:'OwnerId is required')]
     private ?int $ownerId;
+
+    #[Assert\NotBlank(message: 'Status is required')]
+    #[Assert\NotNull(message:'Status is required')]
     private ?string $status;
+
+    #[Assert\NotBlank(message: 'Surface is required')]
+    #[Assert\NotNull(message:'Surface is required')]
     private ?string $surface;
+
     private ?array $characteristic;
     private ?array $media;
     private ?string $typeTransaction;

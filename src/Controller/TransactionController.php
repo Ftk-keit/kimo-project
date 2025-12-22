@@ -16,14 +16,14 @@ final class TransactionController extends AbstractController
     {
     }
 
-    #[Route('', name: 'create_transaction', methods: ['POST'])]
+    #[Route('', name: 'create_transaction', methods: ['POST'])] //ok
     public function create(TransactionDto $transactionDto): JsonResponse
     {
         $response = $this->transactionService->createTransaction($transactionDto);
         return $this->json($response, Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'get_transaction', methods: ['GET'])]
+    #[Route('/{id}', name: 'get_transaction', methods: ['GET'])] //ok
     public function get(int $id): JsonResponse
     {
         $transaction = $this->transactionService->getTransactionById($id);
@@ -35,7 +35,7 @@ final class TransactionController extends AbstractController
         return $this->json($transaction);
     }
 
-    #[Route('/', name: 'get_all_transactions', methods: ['GET'])]
+    #[Route('/', name: 'get_all_transactions', methods: ['GET'])] //ok
     public function getAll(): JsonResponse
     {
         $transactions = $this->transactionService->getAllTransactions();
@@ -47,7 +47,7 @@ final class TransactionController extends AbstractController
         return $this->json($transactions);
     }
 
-    #[Route('/{id}', name: 'update_transaction', methods: ['PUT'])]
+    #[Route('/{id}', name: 'update_transaction', methods: ['PUT'])] //ok
     public function update(int $id, TransactionDto $transactionDto): JsonResponse
     {
         $response = $this->transactionService->updateTransaction($id, $transactionDto);
@@ -59,7 +59,7 @@ final class TransactionController extends AbstractController
         return $this->json($response);
     }
 
-    #[Route('/{id}', name: 'delete_transaction', methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete_transaction', methods: ['DELETE'])] //ok
     public function delete(int $id): JsonResponse
     {
         $deleted = $this->transactionService->deleteTransaction($id);
