@@ -19,33 +19,40 @@ final class UserController extends AbstractController
     #[Route('', name: 'get_all_users', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
-        $users = $this->userService->getAllUsers();
-        return $this->json($users);
+        $response = $this->userService->getAllUsers();
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/{id}', name: 'get_user', methods: ['GET'])]
     public function get(int $id): JsonResponse
     {
-        $user = $this->userService->getUserById($id);
-        
-        if (!$user) {
-            return $this->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        $response = $this->userService->getUserById($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json($user);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/{id}', name: 'update_user', methods: ['PUT'])]
     public function update(int $id, Register $registerDto): JsonResponse
     {
         $response = $this->userService->update($id, $registerDto);
-        return $this->json($response);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/{id}', name: 'delete_user', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
-        $this->userService->delete($id);
-        return $this->json(['message' => 'User deleted successfully'], Response::HTTP_OK);
+        $response = $this->userService->delete($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 }

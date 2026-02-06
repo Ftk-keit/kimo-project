@@ -104,13 +104,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = array_map(fn(TypeAccount $role) => $role->value, $this->roles);
-        // guarantee every user at least has ROLE_USER
-        if (!in_array(TypeAccount::USER->value, $roles)) {
-            $roles[] = TypeAccount::USER->value;
-        }
+        return $this->roles;
+    }
 
-        return array_unique($roles);
+    public function getTypeAccount(): TypeAccount
+    {
+        $roleString = $this->roles[0] ?? TypeAccount::USER->value;
+        return TypeAccount::toEnum($roleString);
+    }
+    public function setTypeAccount(TypeAccount $typeAccount): static
+    {
+        $this->roles = [$typeAccount->value];
+
+        return $this;
     }
 
     /**
@@ -144,7 +150,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
     }

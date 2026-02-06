@@ -39,45 +39,55 @@ class VisitServiceImpl implements VisitService
 
     public function getVisitByPropertyId(int $id): array
     {
+        $response = [];
         $visits = $this->visitRepository->findByProperty($id);
         
-        $visitResponses = [];
-        foreach ($visits as $visit) {
-            $visitResponses[] = $this->visitMapper->toDto($visit);
+        if (!$visits) {
+            $response['message'] = 'No visits found for this property';
+            return $response;
         }
         
-        return $visitResponses;
+        $response['message'] = 'Visits found successfully for this property';
+        $response['content'] = array_map(fn($visit) => $this->visitMapper->toDto($visit), $visits);
+        return $response;
     }
 
-    public function createVisit(VisitDto $visitDto): ?VisitAllResponse
+    public function createVisit(VisitDto $visitDto): array
     {
+        $response = [];
         $visit = $this->visitMapper->toEntity($visitDto);
         
         $property = $this->propertyRepository->findById($visitDto->getPropertyId());
         $client = $this->userRepository->findById($visitDto->getClientId());
         if ($property === null || $client === null) {
-           return null;
+            $response['message'] = 'Property or client not found';
+            return $response;
         }
         $visit->setProperty($property);
         $visit->setClient($client);
 
         $this->visitRepository->save($visit);
         
-        return $this->visitMapper->toDto($visit);
+        $response['message'] = 'Visit created successfully';
+        $response['content'] = $this->visitMapper->toDto($visit);
+        return $response;
     }
 
-    public function updateVisit(int $id, VisitDto $visitDto): ?VisitAllResponse
+    public function updateVisit(int $id, VisitDto $visitDto): array
     {
+        $response = [];
         $visit = $this->visitRepository->findById($id);
         
         if (!$visit) {
-           return null;
+            $response['message'] = 'Visit not found';
+            return $response;
         }
         
         $property = $this->propertyRepository->findById($visitDto->getPropertyId());
         $client = $this->userRepository->findById($visitDto->getClientId());
         if ($property === null || $client === null) {
-           return null;
+            $response['message'] = 'Property or client not found';
+            return $response;
         }
         $visit->setProperty($property);
         $visit->setClient($client);
@@ -86,47 +96,64 @@ class VisitServiceImpl implements VisitService
         
         $this->visitRepository->update($visit);
         
-        return $this->visitMapper->toDto($visit);
+        $response['message'] = 'Visit updated successfully';
+        $response['content'] = $this->visitMapper->toDto($visit);
+        return $response;
     }
 
-    public function deleteVisit(int $id): ?VisitAllResponse
+    public function deleteVisit(int $id): array
     {
+        $response = [];
         $visit = $this->visitRepository->findById($id);
         
         if (!$visit) {
-            return null;
+            $response['message'] = 'Visit not found';
+            return $response;
         }
+        $response['content'] = $this->visitMapper->toDto($visit);
         $this->visitRepository->delete($visit);
-        return $this->visitMapper->toDto($visit);
+        $response['message'] = 'Visit deleted successfully';
+        return $response;
     }
 
-    public function deleteVisitByPropertyId(int $id): ?VisitAllResponse
+    public function deleteVisitByPropertyId(int $id): array
     {
+        $response = [];
         $this->visitRepository->deleteByPropertyId($id);
+        $response['message'] = 'Visits deleted successfully';
+        return $response;
     }
 
-    public function getVisitByVisitId(int $id): ?array
+    public function getVisitByVisitId(int $id): array
     {
+        $response = [];
         $visit = $this->visitRepository->findById($id);
         
         if (!$visit) {
-            return [];
+            $response['message'] = 'Visit not found';
+            return $response;
         }
         
-        return [$this->visitMapper->toDto($visit)];
+        $response['message'] = 'Visit found successfully';
+        $response['content'] = [$this->visitMapper->toDto($visit)];
+        return $response;
     }
 
     public function getAllVisits(): array
     {
+        $response = [];
         // Récupérer toutes les visites
         $visits = $this->visitRepository->findAll();
         
-        // Convertir chaque visite en DTO
-        $visitResponses = [];
-        foreach ($visits as $visit) {
-            $visitResponses[] = $this->visitMapper->toDto($visit);
+        if (!$visits) {
+            $response['message'] = 'No visits found';
+            return $response;
         }
         
-        return $visitResponses;
+        // Convertir chaque visite en DTO
+        $response['message'] = 'Visits found successfully';
+        $response['content'] = array_map(fn($visit) => $this->visitMapper->toDto($visit), $visits);
+        
+        return $response;
     }
 }

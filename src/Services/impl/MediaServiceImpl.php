@@ -12,69 +12,100 @@ use App\Utils\Mappers\MediaMapper;
 
 class MediaServiceImpl implements MediaService
 {
+
     public function __construct(
         private MediaRepository $mediaRepository,
         private PropertyRepository $propertyRepository,
-        private MediaMapper $mediaMapper
-    ) {}
+        private MediaMapper $mediaMapper,
+    ) {
 
-    public function createMedia(MediaDto $mediaDto, int $propertyId): MediaAllResponse
+    }
+
+    public function createMedia(MediaDto $mediaDto): array
     {
-        $property = $this->propertyRepository->find($propertyId);
+        $response = [];
+        $property = $this->propertyRepository->find($mediaDto->getPropertyId());
         if (!$property) {
-            throw new \Exception("Property not found");
+            $response['message'] = 'Property not found';
+            return $response;
         }
-
         $media = $this->mediaMapper->toEntity($mediaDto);
         $media->setProperty($property);
-        
         $this->mediaRepository->save($media);
-
-        return $this->mediaMapper->toDto($media);
+        $response['message'] = 'Media created successfull';
+        $response['content'] = $this->mediaMapper->toDto($media);
+        return $response;
     }
 
-    public function getMediaById(int $id): MediaAllResponse
+    public function getMediaById(int $id): array
     {
+        $response = [];
         $media = $this->mediaRepository->find($id);
         if (!$media) {
-            throw new \Exception("Media not found");
+            $response['message'] = 'Media not found';
+            return $response;
         }
-
-        return $this->mediaMapper->toDto($media);
+        $response['message'] = 'Media found successfully';
+        $response['content'] = $this->mediaMapper->toDto($media);
+        return $response;
     }
 
-    public function updateMedia(int $id, MediaDto $mediaDto): MediaAllResponse
+    public function updateMedia(int $id, MediaDto $mediaDto): array
     {
+        $response = [];
         $media = $this->mediaRepository->find($id);
-        if (!$media) {
-            throw new \Exception("Media not found");
+        $property = $this->propertyRepository->find($mediaDto->getPropertyId());
+        if (!$media || !$property) {
+            $response['message'] = 'Media or property not found';
+            return $response;
         }
 
         $media->setUrl($mediaDto->getUrl());
+        $media->setProperty($property);
         $this->mediaRepository->save($media);
 
-        return $this->mediaMapper->toDto($media);
+        $response['message'] = 'Media updated successfully';
+        $response['content'] = $this->mediaMapper->toDto($media);
+        return $response;
     }
 
-    public function deleteMedia(int $id): void
+    public function deleteMedia(int $id): array
     {
+        $response = [];
         $media = $this->mediaRepository->find($id);
         if (!$media) {
-            throw new \Exception("Media not found");
+            $response['message'] = 'Media not found';
+            return $response;
         }
-
+        $response['content'] = $this->mediaMapper->toDto($media);  
         $this->mediaRepository->delete($media);
+          $response['message'] = 'Media deleted successfully';
+        return $response;
     }
 
     public function getAllMedia(): array
     {
+        $response = [];
         $medias = $this->mediaRepository->findAll();
-        return array_map(fn($media) => $this->mediaMapper->toDto($media), $medias);
+        if (!$medias) {
+            $response['message'] = 'No media found';
+            return $response;
+        }
+        $response['message'] = 'Media found successfully';
+        $response['content'] = array_map(fn($media) => $this->mediaMapper->toDto($media), $medias);
+        return $response;
     }
 
     public function getMediaByPropertyId(int $propertyId): array
     {
+        $response = [];
         $medias = $this->mediaRepository->findByPropertyId($propertyId);
-        return array_map(fn($media) => $this->mediaMapper->toDto($media), $medias);
+        if (!$medias) {
+            $response['message'] = 'No media found for this property';
+            return $response;
+        }
+        $response['message'] = 'Media found successfully for this property';
+        $response['content'] = array_map(fn($media) => $this->mediaMapper->toDto($media), $medias);
+        return $response;
     }
 }

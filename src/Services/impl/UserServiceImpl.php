@@ -26,13 +26,14 @@ class UserServiceImpl implements UserService
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function update(int $userId, Register $register): UserAllResponse
+    public function update(int $userId, Register $register): array
     {
-    
+        $response = [];
         $user = $this->userRepository->findById($userId);
         
         if (!$user) {
-            throw new \Exception("User not found with id: $userId");
+            $response['message'] = 'User not found';
+            return $response;
         }
         
         $user->setEmail($register->getEmail());
@@ -48,34 +49,54 @@ class UserServiceImpl implements UserService
         
         $this->userRepository->update($user);
         
-        return $this->userMapper->toDto($user);
+        $response['message'] = 'User updated successfully';
+        $response['content'] = $this->userMapper->toDto($user);
+        return $response;
     }
 
-    public function delete(int $userId): void
+    public function delete(int $userId): array
     {
+        $response = [];
         $user = $this->userRepository->findById($userId);
         
         if (!$user) {
-            throw new \Exception("User not found with id: $userId");
+            $response['message'] = 'User not found';
+            return $response;
         }
         
+        $response['content'] = $this->userMapper->toDto($user);
         $this->userRepository->delete($user);
+        $response['message'] = 'User deleted successfully';
+        return $response;
     }
 
     public function getAllUsers(): array
     {
+        $response = [];
         $users = $this->userRepository->findAll();
         
-        $userResponses = [];
-        foreach ($users as $user) {
-            $userResponses[] = $this->userMapper->toDto($user);
+        if (!$users) {
+            $response['message'] = 'No users found';
+            return $response;
         }
         
-        return $userResponses;
+        $response['message'] = 'Users found successfully';
+        $response['content'] = array_map(fn($user) => $this->userMapper->toDto($user), $users);
+        return $response;
     }
 
-    public function getUserById(int $userId): ?User
+    public function getUserById(int $userId): array
     {
-        return $this->userRepository->findById($userId);
+        $response = [];
+        $user = $this->userRepository->findById($userId);
+        
+        if (!$user) {
+            $response['message'] = 'User not found';
+            return $response;
+        }
+        
+        $response['message'] = 'User found successfully';
+        $response['content'] = $this->userMapper->toDto($user);
+        return $response;
     }
 }

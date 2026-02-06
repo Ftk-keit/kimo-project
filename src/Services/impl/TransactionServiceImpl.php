@@ -30,14 +30,16 @@ class TransactionServiceImpl implements TransactionService
         $this->propertyRepository = $propertyRepository;
     }
 
-    public function createTransaction(TransactionDto $createTransaction): ?TransactionAllResponse
+    public function createTransaction(TransactionDto $createTransaction): array
     {
+        $response = [];
         $transaction = $this->transactionMapper->toEntity($createTransaction);
         $sellerId = $this->userRepository->findById($createTransaction->getSellerId());
         $buyerId = $this->userRepository->findById($createTransaction->getBuyerId());
         $propertyId = $this->propertyRepository->findById($createTransaction->getPropertyId());
         if ($buyerId === null || $sellerId === null || $propertyId === null) {
-            return null;
+            $response['message'] = 'Seller, buyer or property not found';
+            return $response;
         }
         $transaction->setSeller($sellerId);
         $transaction->setBuyer($buyerId);
@@ -45,33 +47,41 @@ class TransactionServiceImpl implements TransactionService
 
         $this->transactionRepository->save($transaction);
 
-        return $this->transactionMapper->toDto($transaction);
+        $response['message'] = 'Transaction created successfully';
+        $response['content'] = $this->transactionMapper->toDto($transaction);
+        return $response;
     }
 
-    public function getTransactionById(int $id): ?TransactionAllResponse
+    public function getTransactionById(int $id): array
     {
-
+        $response = [];
         $transaction = $this->transactionRepository->findById($id);
 
         if (!$transaction) {
-            return null;
+            $response['message'] = 'Transaction not found';
+            return $response;
         }
 
-        return $this->transactionMapper->toDto($transaction);
+        $response['message'] = 'Transaction found successfully';
+        $response['content'] = $this->transactionMapper->toDto($transaction);
+        return $response;
     }
 
-    public function updateTransaction(int $id, TransactionDto $updateTransaction): ?TransactionAllResponse
+    public function updateTransaction(int $id, TransactionDto $updateTransaction): array
     {
+        $response = [];
         $transaction = $this->transactionRepository->findById($id);
 
         if (!$transaction) {
-            return null;
+            $response['message'] = 'Transaction not found';
+            return $response;
         }
         $sellerId = $this->userRepository->findById($updateTransaction->getSellerId());
         $buyerId = $this->userRepository->findById($updateTransaction->getBuyerId());
         $propertyId = $this->propertyRepository->findById($updateTransaction->getPropertyId());
         if ($buyerId === null || $sellerId === null || $propertyId === null) {
-            return null;
+            $response['message'] = 'Seller, buyer or property not found';
+            return $response;
         }
 
         $transaction->setPrice($updateTransaction->getPrice());
@@ -84,30 +94,40 @@ class TransactionServiceImpl implements TransactionService
 
         $this->transactionRepository->update($transaction);
 
-        return $this->transactionMapper->toDto($transaction);
+        $response['message'] = 'Transaction updated successfully';
+        $response['content'] = $this->transactionMapper->toDto($transaction);
+        return $response;
     }
 
-    public function deleteTransaction(int $id): bool
+    public function deleteTransaction(int $id): array
     {
+        $response = [];
         $transaction = $this->transactionRepository->findById($id);
 
         if (!$transaction) {
-            return false;
+            $response['message'] = 'Transaction not found';
+            return $response;
         }
 
+        $response['content'] = $this->transactionMapper->toDto($transaction);
         $this->transactionRepository->deleteById($id);
+        $response['message'] = 'Transaction deleted successfully';
 
-        return true;
+        return $response;
     }
 
-    public function getAllTransactions(): ?array
+    public function getAllTransactions(): array
     {
+        $response = [];
         $transactions = $this->transactionRepository->findAll();
 
         if (!$transactions) {
-            return null;
+            $response['message'] = 'No transactions found';
+            return $response;
         }
 
-        return array_map([$this->transactionMapper, 'toDto'], $transactions);
+        $response['message'] = 'Transactions found successfully';
+        $response['content'] = array_map([$this->transactionMapper, 'toDto'], $transactions);
+        return $response;
     }
 }

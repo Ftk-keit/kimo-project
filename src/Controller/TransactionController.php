@@ -16,58 +16,53 @@ final class TransactionController extends AbstractController
     {
     }
 
-    #[Route('', name: 'create_transaction', methods: ['POST'])] //ok
+    #[Route('', name: 'create_transaction', methods: ['POST'])]
     public function create(TransactionDto $transactionDto): JsonResponse
     {
         $response = $this->transactionService->createTransaction($transactionDto);
-        return $this->json($response, Response::HTTP_CREATED);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'get_transaction', methods: ['GET'])] //ok
+    #[Route('/{id}', name: 'get_transaction', methods: ['GET'])]
     public function get(int $id): JsonResponse
     {
-        $transaction = $this->transactionService->getTransactionById($id);
-        
-        if (!$transaction) {
-            return $this->json(['error' => 'Transaction not found'], Response::HTTP_NOT_FOUND);
+        $response = $this->transactionService->getTransactionById($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json($transaction);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-    #[Route('/', name: 'get_all_transactions', methods: ['GET'])] //ok
+    #[Route('/', name: 'get_all_transactions', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
-        $transactions = $this->transactionService->getAllTransactions();
-        
-        if (!$transactions) {
-            return $this->json(['error' => 'Transaction not found'], Response::HTTP_NOT_FOUND);
+        $response = $this->transactionService->getAllTransactions();
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json($transactions);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-    #[Route('/{id}', name: 'update_transaction', methods: ['PUT'])] //ok
+    #[Route('/{id}', name: 'update_transaction', methods: ['PUT'])]
     public function update(int $id, TransactionDto $transactionDto): JsonResponse
     {
         $response = $this->transactionService->updateTransaction($id, $transactionDto);
-        
-        if (!$response) {
-            throw new \Exception('Transaction not found', 404);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
         }
-        
-        return $this->json($response);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-    #[Route('/{id}', name: 'delete_transaction', methods: ['DELETE'])] //ok
+    #[Route('/{id}', name: 'delete_transaction', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
-        $deleted = $this->transactionService->deleteTransaction($id);
-        
-        if (!$deleted) {
-            throw new \Exception('Transaction not found', 404);
+        $response = $this->transactionService->deleteTransaction($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json(['message' => 'Transaction deleted successfully'], Response::HTTP_OK);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 }

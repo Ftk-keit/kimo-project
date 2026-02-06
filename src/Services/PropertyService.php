@@ -7,10 +7,10 @@ use App\Dto\Responses\PropertyAllResponse;
 
 interface PropertyService 
 {
-    public function createProperty(PropertyDto $createProperty): ?PropertyAllResponse;
-    public function getPropertyById(int $id): ?PropertyAllResponse;
-    public function getByTitle(string $title): ?PropertyAllResponse;
+    public function createProperty(PropertyDto $createProperty): array;
+    public function getPropertyById(int $id): array;
+    public function getByTitle(string $title): array;
     public function getAllProperties(): array;
-    public function updateProperty(int $id, PropertyDto $updateProperty): ?PropertyAllResponse;
-    public function deleteProperty(int $id): bool;
+    public function updateProperty(int $id, PropertyDto $updateProperty): array;
+    public function deleteProperty(int $id): array;
 }

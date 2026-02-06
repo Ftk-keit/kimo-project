@@ -9,7 +9,7 @@ enum TypeAccount: string
     case AGENT = 'ROLE_AGENT';
     case CLIENT = 'ROLE_CLIENT';
 
-    public function toEnum(string $value): ?TypeAccount
+    public static function toEnum(string $value): ?TypeAccount
     {
         $status = strtolower($value);
         switch ($status) {

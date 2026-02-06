@@ -1,0 +1,219 @@
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+  <div class="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between gap-8">
+    <div class="shrink-0">
+      <img src="/assets/logo.avif" alt="Kimo Logo" class="h-12 w-auto" />
+    </div>
+    <nav class="hidden lg:flex gap-10 items-center flex-1 pt-2">
+      <a
+        routerLink="/"
+        routerLinkActive="border-b-2 border-[#304a76]"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="text-[#304a76] text-lg font-medium pb-1 border-b-2 border-transparent hover:border-[#304a76] transition-colors duration-300"
+      >
+        Accueil
+      </a>
+      <a
+        routerLink="/explorer"
+        routerLinkActive="border-b-2 border-[#304a76]"
+        class="text-[#304a76] text-lg font-medium pb-1 border-b-2 border-transparent hover:border-[#304a76] transition-colors duration-300"
+      >
+        Explorer les biens
+      </a>
+      <a
+        routerLink="/a-propos"
+        routerLinkActive="border-b-2 border-[#304a76]"
+        class="text-[#304a76] text-lg font-medium pb-1 border-b-2 border-transparent hover:border-[#304a76] transition-colors duration-300"
+      >
+        À propos
+      </a>
+      <a
+        routerLink="/nos-services"
+        routerLinkActive="border-b-2 border-[#304a76]"
+        class="text-[#304a76] text-lg font-medium pb-1 border-b-2 border-transparent hover:border-[#304a76] transition-colors duration-300"
+      >
+        Nos services
+      </a>
+      <a
+        routerLink="/blog-actualite"
+        routerLinkActive="border-b-2 border-[#304a76]"
+        class="text-[#304a76] text-lg font-medium pb-1 border-b-2 border-transparent hover:border-[#304a76] transition-colors duration-300"
+      >
+        Blog/Actualité
+      </a>
+      <a
+        routerLink="/contact"
+        routerLinkActive="border-b-2 border-[#304a76]"
+        class="text-[#304a76] text-lg font-medium pb-1 border-b-2 border-transparent hover:border-[#304a76] transition-colors duration-300"
+      >
+        Contact
+      </a>
+    </nav>
+    <div class="hidden lg:flex items-center gap-4">
+      @if (!isLoggedIn()) {
+        <a
+          routerLink="/panier"
+          class="relative text-[#304a76] hover:text-[#304a76]/80 transition-colors duration-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">3</span>
+        </a>
+        <a
+          routerLink="/connexion"
+          class="text-[#304a76] font-semibold px-5 py-2 border-2 border-[#304a76] rounded-3xl hover:bg-[#304a76] hover:text-white transition-all duration-300 cursor-pointer"
+        >
+          Connexion
+        </a>
+        <a
+          routerLink="/inscription"
+          class="text-white bg-[#304a76] font-semibold px-5 py-2 border-2 border-[#304a76] rounded-3xl hover:bg-transparent hover:text-[#304a76] transition-all duration-300 cursor-pointer"
+        >
+          S'inscrire
+        </a>
+      } @else {
+        <div class="relative">
+          <button
+            (click)="toggleDropdown()"
+            class="text-[#304a76] font-semibold px-6 py-2 border-2 border-[#304a76] rounded-lg hover:bg-[#304a76] hover:text-white transition-all duration-300 cursor-pointer flex items-center gap-2"
+          >
+            Mon compte
+            <span class="text-xs">▼</span>
+          </button>
+          @if (isDropdownOpen()) {
+            <div class="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg min-w-50 overflow-hidden animate-fadeIn">
+              <a
+                routerLink="/profil"
+                class="block px-6 py-3 text-[#304a76] hover:bg-gray-100 transition-colors duration-200"
+              >
+                Mon profil
+              </a>
+              <a
+                routerLink="/favoris"
+                class="block px-6 py-3 text-[#304a76] hover:bg-gray-100 transition-colors duration-200"
+              >
+                Mes favoris
+              </a>
+            </div>
+          }
+        </div>
+      }
+    </div>
+    <div class="lg:hidden flex items-center gap-4">
+      @if (!isLoggedIn()) {
+        <a
+          routerLink="/panier"
+          class="relative text-[#304a76] hover:text-[#304a76]/80 transition-colors duration-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">3</span>
+        </a>
+      }
+      <button
+        (click)="toggleMobileMenu()"
+        class="text-[#304a76] p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        aria-label="Menu"
+      >
+        @if (!isMobileMenuOpen()) {
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+  @if (isMobileMenuOpen()) {
+    <div class="lg:hidden absolute left-0 right-0 top-full bg-white border-t border-gray-200 shadow-lg z-50 animate-slideDown">
+      <nav class="flex flex-col px-8 py-4 gap-4">
+        <a
+          routerLink="/"
+          routerLinkActive="text-[#304a76] font-semibold"
+          [routerLinkActiveOptions]="{exact: true}"
+          (click)="closeMobileMenu()"
+          class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+        >
+          Accueil
+        </a>
+        <a
+          routerLink="/explorer"
+          routerLinkActive="text-[#304a76] font-semibold"
+          (click)="closeMobileMenu()"
+          class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+        >
+          Explorer les biens
+        </a>
+        <a
+          routerLink="/a-propos"
+          routerLinkActive="text-[#304a76] font-semibold"
+          (click)="closeMobileMenu()"
+          class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+        >
+          À propos
+        </a>
+        <a
+          routerLink="/services"
+          routerLinkActive="text-[#304a76] font-semibold"
+          (click)="closeMobileMenu()"
+          class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+        >
+          Nos services
+        </a>
+        <a
+          routerLink="/blog-actualite"
+          routerLinkActive="text-[#304a76] font-semibold"
+          (click)="closeMobileMenu()"
+          class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+        >
+          Blog/Actualité
+        </a>
+        <a
+          routerLink="/contact"
+          routerLinkActive="text-[#304a76] font-semibold"
+          (click)="closeMobileMenu()"
+          class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+        >
+          Contact
+        </a>
+        <div class="border-t border-gray-200 pt-4 mt-2 flex flex-col gap-3">
+          @if (!isLoggedIn()) {
+            <a
+              routerLink="/connexion"
+              (click)="closeMobileMenu()"
+              class="text-center text-[#304a76] font-semibold px-5 py-2 border-2 border-[#304a76] rounded-3xl hover:bg-[#304a76] hover:text-white transition-all"
+            >
+              Connexion
+            </a>
+            <a
+              routerLink="/inscription"
+              (click)="closeMobileMenu()"
+              class="text-center text-white bg-[#304a76] font-semibold px-5 py-2 border-2 border-[#304a76] rounded-3xl hover:bg-transparent hover:text-[#304a76] transition-all"
+            >
+              S'inscrire
+            </a>
+          } @else {
+            <a
+              routerLink="/profil"
+              (click)="closeMobileMenu()"
+              class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+            >
+              Mon profil
+            </a>
+            <a
+              routerLink="/favoris"
+              (click)="closeMobileMenu()"
+              class="text-[#304a76] text-base font-medium py-2 hover:bg-gray-50 px-2 rounded transition-colors"
+            >
+              Mes favoris
+            </a>
+          }
+        </div>
+      </nav>
+    </div>
+  }
+</header>

@@ -24,6 +24,7 @@ class Register
     private string $address;
     
     #[Assert\NotBlank(message: 'TypeAccount is required')]
+    #[Assert\Choice(choices: ['role_admin', 'role_user', 'role_owner', 'role_agent', 'role_client'], message: 'TypeAccount must be one of: role_admin, role_user, role_owner, role_agent, role_client')]
     private string $typeAccount;
 
     public function getName(): string

@@ -17,58 +17,53 @@ final class PropertyController extends AbstractController
         
     }
 
-    #[Route('', name: 'create_property', methods: ['POST'])] //ok
+    #[Route('', name: 'create_property', methods: ['POST'])]
     public function create(PropertyDto $propertyDto): JsonResponse
     {
         $response = $this->propertyService->createProperty($propertyDto);
-        return $this->json($response, Response::HTTP_CREATED);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'get_property_by_id', methods: ['GET'])] //
+    #[Route('/{id}', name: 'get_property_by_id', methods: ['GET'])]
     public function get(int $id): JsonResponse
     {
-        $property = $this->propertyService->getPropertyById($id);
-        
-        if (!$property) {
-            return $this->json(['error' => 'Property not found'], Response::HTTP_NOT_FOUND);
+        $response = $this->propertyService->getPropertyById($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json($property);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-     #[Route('/', name: 'get_property', methods: ['GET'])]// ok
+    #[Route('/', name: 'get_property', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
-        $properties = $this->propertyService->getAllProperties();
-        
-        if (!$properties) {
-            return $this->json(['error' => 'Properties not found'], Response::HTTP_NOT_FOUND);
+        $response = $this->propertyService->getAllProperties();
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json($properties);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-    #[Route('/{id}', name: 'update_property', methods: ['PUT'])] //ok
+    #[Route('/{id}', name: 'update_property', methods: ['PUT'])]
     public function update(int $id, PropertyDto $propertyDto): JsonResponse
     {
         $response = $this->propertyService->updateProperty($id, $propertyDto);
-        
-        if (!$response) {
-            throw new \Exception('Property not found', 404);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
         }
-        
-        return $this->json($response);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-    #[Route('/{id}', name: 'delete_property', methods: ['DELETE'])] //ok
+    #[Route('/{id}', name: 'delete_property', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
-        $deleted = $this->propertyService->deleteProperty($id);
-        
-        if (!$deleted) {
-            throw new \Exception('Property not found', 404);
+        $response = $this->propertyService->deleteProperty($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json(['message' => 'Property deleted successfully'], Response::HTTP_OK);
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 }

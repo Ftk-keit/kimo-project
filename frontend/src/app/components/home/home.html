@@ -1,0 +1,502 @@
+<section class="relative h-[600px] overflow-hidden">
+  <div class="absolute inset-0">
+    @for (image of images; track $index) {
+      <div 
+        class="absolute inset-0 transition-opacity duration-1000"
+        [class.opacity-100]="currentImageIndex() === $index"
+        [class.opacity-0]="currentImageIndex() !== $index"
+      >
+        <img 
+          [src]="'/assets/' + image" 
+          [alt]="'Slide ' + ($index + 1)"
+          class="w-full h-full object-cover"
+        />
+      </div>
+    }
+  </div>
+  <div class="absolute inset-0 bg-[#304a76]/60"></div>
+  <div class="relative z-10 h-full flex flex-col items-center justify-center gap-8">
+    <div class="text-center text-white px-8">
+      <h1 class="text-5xl font-bold mb-4">
+        Votre maison, notre engagement
+      </h1>
+      <p class="text-xl leading-relaxed">
+        Découvrez les meilleures propriétés en Guinée.<br />
+        Achetez, louez ou vendez en toute confiance avec KIMO.
+      </p>
+    </div>
+    <div class="w-full max-w-5xl mx-auto px-8">
+      <div class="bg-white rounded-3xl shadow-2xl p-8">
+        <div class="space-y-4">
+          <div class="flex gap-4">
+            <button 
+              type="button"
+              (click)="searchFilters.transactionType = 'acheter'"
+              [class]="searchFilters.transactionType === 'acheter' 
+                ? 'bg-[#304a76] text-white' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+              class="flex-1 py-3 rounded-2xl font-medium transition-all duration-300"
+            >
+              Acheter
+            </button>
+            <button 
+              type="button"
+              (click)="searchFilters.transactionType = 'louer'"
+              [class]="searchFilters.transactionType === 'louer' 
+                ? 'bg-[#304a76] text-white' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+              class="flex-1 py-3 rounded-2xl font-medium transition-all duration-300"
+            >
+              Louer
+            </button>
+            <button 
+              type="button"
+              (click)="searchFilters.transactionType = 'vendre'"
+              [class]="searchFilters.transactionType === 'vendre' 
+                ? 'bg-[#304a76] text-white' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+              class="flex-1 py-3 rounded-2xl font-medium transition-all duration-300"
+            >
+              Vendre
+            </button>
+          </div>
+          <div class="flex gap-4">
+            <div class="flex-1">
+              <select 
+                [(ngModel)]="searchFilters.propertyType"
+                class="w-full px-3 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#304a76] focus:border-transparent appearance-none bg-white"
+              >
+                <option value="">Type de bien</option>
+                <option value="appartement">Appartement</option>
+                <option value="maison">Maison</option>
+                <option value="studio">Studio</option>
+                <option value="bureau">Bureau</option>
+                <option value="colocation">Colocation</option>
+              </select>
+            </div>
+            <div class="flex-1">
+              <input 
+                type="text"
+                [(ngModel)]="searchFilters.location"
+                placeholder="Localisation"
+                class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#304a76] focus:border-transparent"
+              />
+            </div>
+            <div class="flex-1">
+              <input 
+                type="number"
+                [(ngModel)]="searchFilters.maxPrice"
+                placeholder="Prix maximum"
+                class="w-full px-3 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#304a76] focus:border-transparent"
+              />
+            </div>
+            <div class="flex-1">
+              <button 
+                (click)="onSearch()"
+                class="w-full bg-[#304a76] text-white font-semibold px-6 py-3 rounded-2xl hover:bg-[#243a5e] transition-colors duration-300 flex items-center justify-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+                Rechercher
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
+    @for (image of images; track $index) {
+      <button 
+        (click)="goToSlide($index)"
+        class="w-3 h-3 rounded-full transition-all duration-300"
+        [class.bg-white]="currentImageIndex() === $index"
+        [class.bg-white/50]="currentImageIndex() !== $index"
+        [attr.aria-label]="'Go to slide ' + ($index + 1)"
+      ></button>
+    }
+  </div>
+</section>
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-8">
+    <h2 class="text-4xl md:text-5xl font-bold text-[#304a76] text-center mb-12">
+      Explorez par catégorie
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-2xl p-6 cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-[#304a76] hover:shadow-lg group">
+        <div class="text-center">
+          <div class="mb-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Appartements</h3>
+          <p class="text-gray-600">5+ biens</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-[#304a76] hover:shadow-lg group">
+        <div class="text-center">
+          <div class="mb-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Maisons</h3>
+          <p class="text-gray-600">5+ biens</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-[#304a76] hover:shadow-lg group">
+        <div class="text-center">
+          <div class="mb-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Bureaux</h3>
+          <p class="text-gray-600">5+ biens</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-[#304a76] hover:shadow-lg group">
+        <div class="text-center">
+          <div class="mb-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Colocations</h3>
+          <p class="text-gray-600">5+ biens</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="flex justify-between items-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-[#304a76]">
+        Biens populaires
+      </h2>
+      <button class="px-6 py-3 bg-[#304a76] text-white rounded-2xl hover:bg-[#243a5e] transition-colors duration-300 font-medium">
+        Voir plus d'annonces
+      </button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#304a76] transition-all duration-300 shadow-lg hover:shadow-xl">
+        <div class="relative h-64">
+          <img src="/assets/first.jpg" alt="Appartement moderne à Kaloum" class="w-full h-full object-cover" />
+          <div class="absolute top-4 right-4">
+            <span class="bg-[#304a76] text-white px-6 py-2 rounded-full text-base font-semibold">Location</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Appartement moderne à Kaloum</h3>
+          <p class="text-gray-600 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+            Quartier Almamya, Kaloum
+          </p>
+          <div class="flex items-center gap-4 text-gray-700 mb-4 text-sm">
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+              </svg>
+              3 chambres
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
+              </svg>
+              2 bains
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+              </svg>
+              120 m²
+            </span>
+          </div>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-[#304a76]">2.5 Millions GNF <span class="text-base font-normal text-gray-600">/ mois</span></p>
+            <button class="px-6 py-2 bg-[#304a76] text-white rounded-2xl hover:bg-[#243a5e] transition-all duration-300 font-medium">
+              Détail
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#304a76] transition-all duration-300 shadow-lg hover:shadow-xl">
+        <div class="relative h-64">
+          <img src="/assets/second.jpg" alt="Villa de luxe à Kipé" class="w-full h-full object-cover" />
+          <div class="absolute top-4 right-4">
+            <span class="bg-[#304a76] text-white px-6 py-2 rounded-full text-base font-semibold">Vente</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Villa de luxe à Kipé</h3>
+          <p class="text-gray-600 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+            Kipé Dadia
+          </p>
+          <div class="flex items-center gap-4 text-gray-700 mb-4 text-sm">
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+              </svg>
+              5 chambres
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
+              </svg>
+              4 bains
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+              </svg>
+              350 m²
+            </span>
+          </div>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-[#304a76]">850.0 Millions GNF</p>
+            <button class="px-6 py-2 bg-[#304a76] text-white rounded-2xl hover:bg-[#243a5e] transition-all duration-300 font-medium">
+              Détail
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#304a76] transition-all duration-300 shadow-lg hover:shadow-xl">
+        <div class="relative h-64">
+          <img src="/assets/fird.jpg" alt="Maison familiale à Dubréka" class="w-full h-full object-cover" />
+          <div class="absolute top-4 right-4">
+            <span class="bg-[#304a76] text-white px-6 py-2 rounded-full text-base font-semibold">Vente</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Maison familiale à Dubréka</h3>
+          <p class="text-gray-600 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+            Dubréka
+          </p>
+          <div class="flex items-center gap-4 text-gray-700 mb-4 text-sm">
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+              </svg>
+              4 chambres
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
+              </svg>
+              3 bains
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+              </svg>
+              220 m²
+            </span>
+          </div>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-[#304a76]">320.0 Millions GNF</p>
+            <button class="px-6 py-2 bg-[#304a76] text-white rounded-2xl hover:bg-[#243a5e] transition-all duration-300 font-medium">
+              Détail
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-8">
+    <div class="bg-gray-100 rounded-3xl py-12 px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-[#304a76] text-center mb-12">
+        Pourquoi choisir KIMO ?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="mb-4 flex justify-center">
+          <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-[#304a76] mb-3">Sécurité garantie</h3>
+        <p class="text-gray-700">Transactions sécurisées et biens vérifiés</p>
+      </div>
+      <div class="text-center">
+        <div class="mb-4 flex justify-center">
+          <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-[#304a76] mb-3">Biens certifiés</h3>
+        <p class="text-gray-700">Tous nos biens sont inspectés et validés</p>
+      </div>
+      <div class="text-center">
+        <div class="mb-4 flex justify-center">
+          <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-[#304a76] mb-3">Support 24/7</h3>
+        <p class="text-gray-700">Une équipe disponible à tout moment</p>
+      </div>
+      <div class="text-center">
+        <div class="mb-4 flex justify-center">
+          <div class="w-20 h-20 rounded-full bg-[#304a76] flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-[#304a76] mb-3">Excellence</h3>
+        <p class="text-gray-700">Service de qualité premium</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl md:text-5xl font-bold text-[#304a76] text-center mb-4">
+      Ce que disent nos clients
+    </h2>
+    <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+      Découvrez les expériences de nos clients satisfaits qui ont trouvé leur bien idéal avec KIMO
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-shadow duration-300">
+        <div class="mb-6 flex gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <p class="text-gray-700 mb-6 italic">
+          "KIMO m'a aidé à trouver le bureau parfait pour mon entreprise en moins d'une semaine. Service exceptionnel !"
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-[#304a76] flex items-center justify-center">
+            <span class="text-white font-bold text-lg">MB</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#304a76]">Mamadou Bah</h4>
+            <p class="text-gray-500 text-sm">Entrepreneur</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-shadow duration-300">
+        <div class="mb-6 flex gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <p class="text-gray-700 mb-6 italic">
+          "J'ai acheté ma première maison grâce à KIMO. L'équipe est professionnelle et à l'écoute. Je recommande vivement !"
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-[#304a76] flex items-center justify-center">
+            <span class="text-white font-bold text-lg">AD</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#304a76]">Aïcha Diallo</h4>
+            <p class="text-gray-500 text-sm">Professeure</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-shadow duration-300">
+        <div class="mb-6 flex gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-yellow-400">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <p class="text-gray-700 mb-6 italic">
+          "Processus transparent et facile. KIMO a révolutionné l'immobilier en Guinée. Excellent travail !"
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-[#304a76] flex items-center justify-center">
+            <span class="text-white font-bold text-lg">IS</span>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#304a76]">Ibrahima Sylla</h4>
+            <p class="text-gray-500 text-sm">Médecin</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="bg-[#304a76] rounded-[3rem] py-12 px-8 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+        Prêt à trouver votre maison idéale ?
+      </h2>
+      <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+        Rejoignez des milliers de Guinéens satisfaits qui ont trouvé leur bonheur avec KIMO
+      </p>
+      <button class="bg-white text-[#304a76] px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg">
+        Explorer les biens
+      </button>
+    </div>
+  </div>
+</section>

@@ -18,8 +18,8 @@ class DtoValueResolver implements ValueResolverInterface
     {
         $type = $argument->getType();
         
-        // Vérifier si le type se termine par "Dto" (nos classes DTO)
-        if (!$type || !str_ends_with($type, 'Dto')) {
+        // Vérifier si c'est une classe DTO (se termine par "Dto" ou est dans namespace Requests)
+        if (!$type || (!str_ends_with($type, 'Dto') && !str_contains($type, 'Requests\\'))) {
             return [];
         }
 

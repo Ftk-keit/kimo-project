@@ -21,6 +21,7 @@ class VisitDto
     #[Assert\NotNull(message:'Date is required')]
     private ?\DateTime $hourse;
     #[Assert\NotBlank(message:'Status is required')]
+    #[Assert\Choice(choices: ['confirmé', 'annulé', 'en attente'], message: 'Status must be one of: confirmé, annulé, en attente')]
     private ?string $status;
 
 

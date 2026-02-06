@@ -1,0 +1,17 @@
+/* Exploration component styles */
+
+input[type="text"],
+input[type="number"],
+select {
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+select:hover {
+  border-color: #304a76;
+}
+
+button {
+  cursor: pointer;
+}

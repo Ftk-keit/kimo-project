@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Dto\Requests\Login;
+use App\Dto\Requests\Register;
+
 interface AuthService 
 {
-    public function register(register $register): User;
-    public function login(login $login): User;
+    public function register(Register $register): array;
+    public function login(Login $login): array;
 }

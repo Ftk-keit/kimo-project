@@ -2,7 +2,7 @@
 
 namespace App\Dto\Responses;
 
-class UserAllResponse 
+class UserAllResponse
 {
     private int $id;
     private string $name;
@@ -10,6 +10,7 @@ class UserAllResponse
     private string $email;
     private string $phone;
     private string $address;
+    private string $typeAccount;
 
     public function getId(): int
     {
@@ -69,5 +70,13 @@ class UserAllResponse
     public function setAddress(string $address): void
     {
         $this->address = $address;
+    }
+    public function getTypeAccount(): string
+    {
+        return $this->typeAccount;
+    }
+    public function setTypeAccount(string $typeAccount): void
+    {
+        $this->typeAccount = $typeAccount;
     }
 }

@@ -36,6 +36,7 @@ class TransactionDto
 
     #[Assert\NotBlank(message: 'Status is required')]
     #[Assert\NotNull(message:'Status is required')]
+    #[Assert\Choice(choices: ['complet', 'en cours', 'échoué'], message: 'Status must be one of: complet, en cours, échoué')]
     private ?string $status;
    public function getSellerId(): ?int
     {

@@ -22,58 +22,75 @@ class PropertyServiceImpl implements PropertyService
         $this->userRepository = $userRepository;
     }
 
-    public function createProperty(PropertyDto $createProperty): ?PropertyAllResponse
+    public function createProperty(PropertyDto $createProperty): array
     {
-        $property = $this->propertyMapper->toEntity($createProperty);
+        $response = [];
         $owner = $this->userRepository->findById($createProperty->getOwnerId());
         if (!$owner) {
-          return null;
+            $response['message'] = 'Owner not found';
+            return $response;
         }
+        $property = $this->propertyMapper->toEntity($createProperty);
         $property->setOwner($owner);
         $this->propertyRepository->save($property);
         
-        return $this->propertyMapper->toDto($property);
+        $response['message'] = 'Property created successfully';
+        $response['content'] = $this->propertyMapper->toDto($property);
+        return $response;
     }
 
-    public function getPropertyById(int $id): ?PropertyAllResponse
+    public function getPropertyById(int $id): array
     {
+        $response = [];
         $property = $this->propertyRepository->findById($id);
         
         if (!$property) {
-            return null;
+            $response['message'] = 'Property not found';
+            return $response;
         }
 
-        return $this->propertyMapper->toDto($property);
+        $response['message'] = 'Property found successfully';
+        $response['content'] = $this->propertyMapper->toDto($property);
+        return $response;
     }
-        public function getByTitle(string $title): ?PropertyAllResponse
-        {
-            $property = $this->propertyRepository->findByTitle($title);
-            
-            if (!$property) {
-                return null;
-            }
 
-            return $this->propertyMapper->toDto($property);
-        }
- public function getAllProperties(): array
+    public function getByTitle(string $title): array
     {
+        $response = [];
+        $property = $this->propertyRepository->findByTitle($title);
+        
+        if (!$property) {
+            $response['message'] = 'Property not found';
+            return $response;
+        }
+
+        $response['message'] = 'Property found successfully';
+        $response['content'] = $this->propertyMapper->toDto($property);
+        return $response;
+    }
+
+    public function getAllProperties(): array
+    {
+        $response = [];
         $properties = $this->propertyRepository->findAll();
-        $propertyDtos = [];
-        
-        foreach ($properties as $property) {
-            $propertyDtos[] = $this->propertyMapper->toDto($property);
+        if (!$properties) {
+            $response['message'] = 'No properties found';
+            return $response;
         }
         
-        return $propertyDtos;
-    }   
-   
+        $response['message'] = 'Properties found successfully';
+        $response['content'] = array_map(fn($property) => $this->propertyMapper->toDto($property), $properties);
+        return $response;
+    }
 
-    public function updateProperty(int $id, PropertyDto $updateProperty): ?PropertyAllResponse
+    public function updateProperty(int $id, PropertyDto $updateProperty): array
     {
+        $response = [];
         $property = $this->propertyRepository->findById($id);
         
         if (!$property) {
-            return null;
+            $response['message'] = 'Property not found';
+            return $response;
         }
         
         $property->setTitle($updateProperty->getTitle());
@@ -88,18 +105,25 @@ class PropertyServiceImpl implements PropertyService
         
         $this->propertyRepository->update($property);
         
-        return $this->propertyMapper->toDto($property);
+        $response['message'] = 'Property updated successfully';
+        $response['content'] = $this->propertyMapper->toDto($property);
+        return $response;
     }
 
-    public function deleteProperty(int $id): bool
+    public function deleteProperty(int $id): array
     {
+        $response = [];
         $property = $this->propertyRepository->findById($id);
         
         if (!$property) {
-            return false;
+            $response['message'] = 'Property not found';
+            return $response;
         }
-        $this->propertyRepository->deleteById($id);
         
-        return true;
+        $response['content'] = $this->propertyMapper->toDto($property);
+        $this->propertyRepository->deleteById($id);
+        $response['message'] = 'Property deleted successfully';
+        
+        return $response;
     }
 }

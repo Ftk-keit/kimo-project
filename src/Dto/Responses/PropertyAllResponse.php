@@ -5,10 +5,10 @@ namespace App\Dto\Responses;
 class PropertyAllResponse 
 {
     private int $id;
-    private ?string $Title;
+    private ?string $title;
     private ?string $type;
     private ?int $views;
-    private ?string $Description;
+    private ?string $description;
     private ?int $price;
     private ?int $size;
     private ?string $location;
@@ -29,7 +29,7 @@ class PropertyAllResponse
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
     public function getType(): ?string
@@ -44,7 +44,7 @@ class PropertyAllResponse
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
 

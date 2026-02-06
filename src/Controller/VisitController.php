@@ -16,54 +16,63 @@ final class VisitController extends AbstractController
     {
     }
 
-    #[Route('', name: 'create_visit', methods: ['POST'])] //ok
+    #[Route('', name: 'create_visit', methods: ['POST'])]
     public function create(VisitDto $visitDto): JsonResponse
     {
         $response = $this->visitService->createVisit($visitDto);
-        return $this->json($response, Response::HTTP_CREATED);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'get_visit', methods: ['GET'])] //ok
+    #[Route('/{id}', name: 'get_visit', methods: ['GET'])]
     public function get(int $id): JsonResponse
     {
-        $visits = $this->visitService->getVisitByVisitId($id);
-        
-        if (empty($visits)) {
-            throw new \Exception('Visit not found', 404);
+        $response = $this->visitService->getVisitByVisitId($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
         }
-        
-        return $this->json($visits[0]);
-    }
-    #[Route('/', name: 'get_all_visits', methods: ['GET'])] //ok
-    public function getAll(): JsonResponse
-    {
-        $visits = $this->visitService->getAllVisits();
-        
-        if (empty($visits)) {
-            throw new \Exception('Visit not found', 404);
-        }
-        
-        return $this->json($visits);
+        return $this->json($response['content'][0], Response::HTTP_OK);
     }
 
-    #[Route('/{id}', name: 'update_visit', methods: ['PUT'])] //ok
+    #[Route('/', name: 'get_all_visits', methods: ['GET'])]
+    public function getAll(): JsonResponse
+    {
+        $response = $this->visitService->getAllVisits();
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
+    }
+
+    #[Route('/{id}', name: 'update_visit', methods: ['PUT'])]
     public function update(int $id, VisitDto $visitDto): JsonResponse
     {
         $response = $this->visitService->updateVisit($id, $visitDto);
-        return $this->json($response);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
-    #[Route('/{id}', name: 'delete_visit', methods: ['DELETE'])] //ok
+    #[Route('/{id}', name: 'delete_visit', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
-        $this->visitService->deleteVisit($id);
-        return $this->json(['message' => 'Visit deleted successfully'], Response::HTTP_OK);
+        $response = $this->visitService->deleteVisit($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/property/{id}', name: 'get_visits_by_property', methods: ['GET'])]
     public function getByProperty(int $id): JsonResponse
     {
-        $visits = $this->visitService->getVisitByPropertyId($id);
-        return $this->json($visits);
+        $response = $this->visitService->getVisitByPropertyId($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 }

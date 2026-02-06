@@ -12,6 +12,7 @@ class PropertyDto
 
     #[Assert\NotBlank(message: 'Type is required')]
     #[Assert\NotNull(message:'Type is required')]
+    #[Assert\Choice(choices: ['appartement', 'maison', 'studio', 'bureau', 'colocation'], message: 'Type must be one of: appartement, maison, studio, bureau, colocation')]
     private ?string $type;
 
     #[Assert\NotBlank(message: 'Views is required')]
@@ -48,6 +49,7 @@ class PropertyDto
 
     #[Assert\NotBlank(message: 'Status is required')]
     #[Assert\NotNull(message:'Status is required')]
+    #[Assert\Choice(choices: ['publié', 'non publié'], message: 'Status must be "publié" or "non publié"')]
     private ?string $status;
 
     #[Assert\NotBlank(message: 'Surface is required')]
@@ -56,6 +58,8 @@ class PropertyDto
 
     private ?array $characteristic;
     private ?array $media;
+    
+    #[Assert\Choice(choices: ['vente', 'location'], message: 'TypeTransaction must be "vente" or "location"')]
     private ?string $typeTransaction;
 
     public function getPrice(): ?int

@@ -75,7 +75,7 @@ class Property
     /**
      * @var Collection<int, Visit>
      */
-    #[ORM\OneToMany(targetEntity: Visit::class, mappedBy: 'property')]
+    #[ORM\OneToMany(targetEntity: Visit::class, mappedBy: 'property', cascade: ['remove'])]
     private Collection $visits;
 
     /**

@@ -64,6 +64,7 @@ class DataInitializer
         $user1->setAddress('123 Rue de la Paix, Paris');
         $user1->setRoles([TypeAccount::OWNER->value]);
         $user1->setPassword($this->passwordHasher->hashPassword($user1, 'password123'));
+        $user1->setTypeAccount(typeAccount: TypeAccount::OWNER);
         $this->userRepository->save($user1);
 
         // Utilisateur 2 - Acheteur
@@ -75,6 +76,7 @@ class DataInitializer
         $user2->setAddress('456 Avenue du Monde, Lyon');
         $user2->setRoles([TypeAccount::CLIENT->value]);
         $user2->setPassword($this->passwordHasher->hashPassword($user2, 'password456'));
+        $user2->setTypeAccount(typeAccount: TypeAccount::CLIENT);
         $this->userRepository->save($user2);
     }
 

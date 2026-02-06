@@ -103,6 +103,21 @@ class PropertyRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
    }
+   public function filterBy( array $filters ): array
+   {
+       $qb = $this->createQueryBuilder('p')
+           ->leftJoin('p.media', 'm')
+           ->addSelect('m');
+
+       foreach ($filters as $field => $value) {
+           $qb->andWhere("p.$field = :$field")
+              ->setParameter($field, $value);
+       }
+
+       return $qb->orderBy('p.id', 'ASC')
+           ->getQuery()
+           ->getResult();
+   }
 
  
    public function findByPriceRange(string $minPrice, string $maxPrice): array

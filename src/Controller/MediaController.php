@@ -15,44 +15,62 @@ class MediaController extends AbstractController
     public function __construct(private MediaService $mediaService) {}
 
     #[Route('', methods: ['POST'])]
-    public function create(MediaDto $mediaDto, int $propertyId): JsonResponse
+    public function create(MediaDto $mediaDto): JsonResponse
     {
-        $media = $this->mediaService->createMedia($mediaDto, $propertyId);
-        return $this->json($media, Response::HTTP_CREATED);
+        $response = $this->mediaService->createMedia($mediaDto);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_CREATED);
     }
 
     #[Route('/{id}', methods: ['GET'])]
     public function getOne(int $id): JsonResponse
     {
-        $media = $this->mediaService->getMediaById($id);
-        return $this->json($media);
+        $response = $this->mediaService->getMediaById($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
-        $medias = $this->mediaService->getAllMedia();
-        return $this->json($medias);
+        $response = $this->mediaService->getAllMedia();
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/property/{propertyId}', methods: ['GET'])]
     public function getByProperty(int $propertyId): JsonResponse
     {
-        $medias = $this->mediaService->getMediaByPropertyId($propertyId);
-        return $this->json($medias);
+        $response = $this->mediaService->getMediaByPropertyId($propertyId);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/{id}', methods: ['PUT'])]
     public function update(int $id, MediaDto $mediaDto): JsonResponse
     {
-        $media = $this->mediaService->updateMedia($id, $mediaDto);
-        return $this->json($media);
+        $response = $this->mediaService->updateMedia($id, $mediaDto);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 
     #[Route('/{id}', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
-        $this->mediaService->deleteMedia($id);
-        return $this->json(null, Response::HTTP_NO_CONTENT);
+        $response = $this->mediaService->deleteMedia($id);
+        if (!isset($response['content'])) {
+            return $this->json($response['message'], Response::HTTP_NOT_FOUND);
+        }
+        return $this->json($response['content'], Response::HTTP_OK);
     }
 }

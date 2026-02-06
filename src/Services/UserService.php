@@ -8,8 +8,8 @@ use App\Entity\User;
 
 interface UserService
 {
-    public function update(int $userId, Register $register): UserAllResponse; 
-    public function delete(int $userId): void;
+    public function update(int $userId, Register $register): array;
+    public function delete(int $userId): array;
     public function getAllUsers(): array;
-    public function getUserById(int $userId): ?User;
+    public function getUserById(int $userId): array;
 }
